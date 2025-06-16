@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model UserInfo {
+  user_id      String  @id @db.VarChar(10)
+  student_id   String  @unique @db.Char(11)
+  house_id     Int?
+  matched_user String? @db.VarChar(10)
+
+  house HouseInfo? @relation(fields: [house_id], references: [house_id])
+  hints Hint[]
+
+  @@map("User_Info")
+}
+
+model HouseInfo {
+  house_id   Int    @id @default(autoincrement())
+  house_name String @db.VarChar(50)
+  color      String @db.VarChar(25)
+
+  users UserInfo[]
+
+  @@map("House_Info")
+}
+
+model Hint {
+  id      Int      @id @default(autoincrement())
+  hint    String   @db.Char(100)
+  user_id String
+  user    UserInfo @relation(fields: [user_id], references: [user_id])
+
+  @@map("Hint_PE")
+}
