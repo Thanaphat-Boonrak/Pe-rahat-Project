@@ -14,8 +14,8 @@ class HintService {
       status: true,
     };
 
-    if (!user || hint.Hint == null || hint.Hint == "") {
-      response.message = "User Not Found or Hint Null";
+    if (!user || hint.Hint == null || hint.Hint == "" || !user.user_id.startsWith("67")) {
+      response.message = "User Not Found || Hint Null || Only 67 can add Hint";
       response.status = false;
       return response;
     }
