@@ -35,6 +35,7 @@ class HintService {
       message: "Success",
       status: true,
     };
+    
     const user = await prisma.userInfo.findUnique({
       where: {
         student_id: userDto.student_id,
@@ -51,7 +52,7 @@ class HintService {
       where: { user_id: user.matched_user },
     });
 
-    return hint;
+    return response;
   }
 }
 
